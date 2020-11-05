@@ -1,0 +1,11 @@
+ls
+ls -al
+du -h
+sleep 1000 &
+echo This\ is\ a\ demo\ of\ escaped\ chars
+plist
+getpath
+setprompt my\ favorite\ prompt\ $
+echo this\ is\ my\ favorite\ command%with a comment
+uname -r
+quit

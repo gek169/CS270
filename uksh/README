@@ -1,0 +1,67 @@
+David Webster's UKSH implementation
+Authored October 2020
+
+Authored with love for my professor, Dr. Fei
+
+Hopefully i've done some unique/interesting things you haven't seen before for this assignment.
+~~~~~
+make -B to build the shell (make suffices if it isn't already built, -B is to rebuild it)
+Run ./uksh --help to view in-shell commands that can be executed and usage hints.
+Help is not available in-shell.
+make clean deletes the shell binary.
+
+./uksh --path <path> allows the path variable to be configured on startup.
+You can also get and set the path with getpath and setpath in-shell.
+
+The shell can detect if it is running in an interactive, "real" tty or not, which causes it to behave differently.
+The shell runs in a raw tty if it is interactive. Otherwise, it doesn't bother.
+
+This was implemented last-minute because I found that passing files into the shell was actually impossible if this
+wasn't true, you can't get or set the tty attributes if the tty isn't real...
+
+Backspace is manually implemented as ^H, as such even if your terminal program does not support it, you can press
+CTRL+H
+to remove a character you just typed.
+This is only possible because I chose to use a raw tty, and my main reason for doing so (Have you ever used dash?)
+
+LIMITATIONS:
+The path variable is *only* used for finding the executables invoked as the first portion of a command.
+it is not used for any other purpose or passed to child processes.
+
+Putting the end of file character in a test script immediately after quit will cause the program to hang.
+In the interactive mode this is avoided and pressing control+D works at any time.
+
+Certain escape sequences produce invalid results.
+Most notably:
+\\& will escape the ampersand even though it is not escaped. You should put a space before the ampersand, I.E.
+<command> --input mytextwhichcontainsbackslash\\ & %instead of
+<command> --input mytextwhichcontainsbackslash\\&
+\\% has a similar bug, the comment character is escaped here even when it should not be.
+
+Attempting to fork a myriad of background processes at once may produce error messages and crashes. 
+This has not been observed with the specified background process system in proj3.pdf (command &)
+
+No Segfaults though, so it's to-spec.
+
+
+
+The shell does not provide information about the terminal's ability to print in color, display W3M images, etcetera nor does it
+make any attempt to pass down environment variables.
+
+The reaping of zombie child processes is done one at a time every line instead of all at once every line (as bash does)
+
+Despite warnings given by the assignment, the shell has no problems opening my preferred CLI editor micro,
+nor have I had any oddities with other editors. 
+the man program, more, less, and every other CLI program i've tested work flawlessly.
+
+SIGINT passing is implemented, but not SIGSTOP (CTRL+Z) or SIGCONT.
+No SIGKILL either.
+
+This shell does not check for a .ukshrc in your home.
+
+This shell provides no piping functionality.
+
+This shell does not have an option to display the current working directory in the prompt.
+
+Little input sanitation is done. Non-printable or control characters could hypothetically be incorrectly handled.
+

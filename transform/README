@@ -1,0 +1,10 @@
+Written by David MHS Webster on September 5th, 2020
+For CS 270 at University of Kentucky
+
+Program does not generate error states for erroneous input, merely producing unusual output.
+Line limit is 1024 characters.
+
+Text2Ascii is a program for generating unit test text files. I tend to use transform.c's own source code.
+
+The program supports taking in strings like the assignment says, but it just acts to re-print the characters within
+the string. No escaping is supported.
